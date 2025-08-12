@@ -76,7 +76,7 @@ export class A2AClient {
   ) {
     this.agentBaseUrl = agentBaseUrl.replace(/\/$/, ""); // Remove trailing slash if any
     this.agentCardPath = agentCardPath.replace(/^\//, ""); // Remove leading slash if any
-    this.customHeaders = config?.customHeaders || {};
+    this.customHeaders = { ...(config?.customHeaders || {}) };
     this.agentCardPromise = this._fetchAndCacheAgentCard();
   }
 

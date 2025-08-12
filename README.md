@@ -364,70 +364,27 @@ async function run() {
 run();
 ```
 
-### Authentication and Custom Headers
+### Custom Headers
 
-The A2AClient supports custom headers for enhanced security and flexibility, including bearer token authentication.
-
-#### Bearer Token Authentication via Custom Headers
+The A2AClient supports custom headers for authentication and other purposes. You can set headers during initialization or dynamically using the provided methods.
 
 ```typescript
 import { A2AClient, A2AClientConfig } from "@a2a-js/sdk/client";
 
-// Create client with bearer token via custom headers
+// Set headers during initialization
 const config: A2AClientConfig = {
   customHeaders: {
-    "Authorization": "Bearer your-bearer-token-here",
-    "X-Custom-Header": "custom-value",
-    "User-Agent": "A2A-Client/1.0"
+    "Authorization": "Bearer your-token-here"
   }
 };
-
 const client = new A2AClient("http://localhost:41241", ".well-known/agent-card.json", config);
 
-// Or set token after creation
-const client2 = new A2AClient("http://localhost:41241");
-client2.setCustomHeader("Authorization", "Bearer new-bearer-token");
-```
-
-#### Custom Headers Management
-
-```typescript
-import { A2AClient } from "@a2a-js/sdk/client";
-
-const client = new A2AClient("http://localhost:41241");
-
-// Set custom headers
-client.setCustomHeaders({
-  "X-API-Version": "2.0",
-  "X-Client-ID": "my-client",
-  "X-Trace-ID": "trace-123",
-  "Authorization": "Bearer my-token"
-});
-
-// Add individual headers
-client.setCustomHeader("X-User-ID", "user-456");
+// Or set headers after creation
+client.setCustomHeaders({ "X-API-Version": "2.0" });
+client.setCustomHeader("Authorization", "Bearer new-token");
 
 // Get current headers
 const headers = client.getCustomHeaders();
-console.log("Custom headers:", headers);
-```
-
-#### Token Rotation
-
-```typescript
-import { A2AClient } from "@a2a-js/sdk/client";
-
-const client = new A2AClient("http://localhost:41241", ".well-known/agent-card.json", {
-  customHeaders: {
-    "Authorization": "Bearer initial-token"
-  }
-});
-
-// Rotate token when needed
-client.setCustomHeader("Authorization", "Bearer new-rotated-token");
-
-// All subsequent requests will use the new token
-const response = await client.sendMessage(messageParams);
 ```
 
 ### Streaming Usage
